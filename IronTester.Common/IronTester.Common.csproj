@@ -52,13 +52,25 @@
     <Compile Include="Commands\PleaseFail.cs" />
     <Compile Include="Commands\PleaseRestart.cs" />
     <Compile Include="Commands\PleaseThrowException.cs" />
+    <Compile Include="Messages\Build\IBuildFinished.cs" />
+    <Compile Include="Messages\Build\IBuildRequest.cs" />
+    <Compile Include="Messages\Build\IBuildStatus.cs" />
+    <Compile Include="Messages\Initialization\IInitializeFinished.cs" />
+    <Compile Include="Messages\Initialization\IInitializeRequest.cs" />
+    <Compile Include="Messages\Initialization\IInitializeStatus.cs" />
+    <Compile Include="Messages\Tests\ITestsFinished.cs" />
+    <Compile Include="Messages\Tests\ITestsRequest.cs" />
+    <Compile Include="Messages\Tests\ITestsStatus.cs" />
+    <Compile Include="Messages\Validation\IValidationFinished.cs" />
+    <Compile Include="Messages\Validation\IValidationStatus.cs" />
+    <Compile Include="Messages\Validation\IValidationRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Messages\" />
+    <Folder Include="Messages\Saga\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
