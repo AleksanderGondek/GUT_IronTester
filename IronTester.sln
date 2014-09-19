@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{323939
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronTester.ManualMessagesPusher", "IronTester.ManualMessagesPusher\IronTester.ManualMessagesPusher.csproj", "{8C8D7010-C345-4225-9EFE-9358C1E13DE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronTester.Server", "IronTester.Server\IronTester.Server.csproj", "{0D01D877-4299-40AF-BC3F-FA03A53857B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +26,14 @@ Global
 		{2D51C9BA-517C-4AD5-A467-0A42AECD4D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D51C9BA-517C-4AD5-A467-0A42AECD4D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D51C9BA-517C-4AD5-A467-0A42AECD4D49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C8D7010-C345-4225-9EFE-9358C1E13DE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C8D7010-C345-4225-9EFE-9358C1E13DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C8D7010-C345-4225-9EFE-9358C1E13DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C8D7010-C345-4225-9EFE-9358C1E13DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D01D877-4299-40AF-BC3F-FA03A53857B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D01D877-4299-40AF-BC3F-FA03A53857B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D01D877-4299-40AF-BC3F-FA03A53857B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D01D877-4299-40AF-BC3F-FA03A53857B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

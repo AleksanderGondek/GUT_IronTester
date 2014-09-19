@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NServiceBus;
 
-namespace IronTester.Common.Messages.Validation
+namespace IronTester.Common.Messages.Saga
 {
     public interface IValidationRequest : IMessage
     {

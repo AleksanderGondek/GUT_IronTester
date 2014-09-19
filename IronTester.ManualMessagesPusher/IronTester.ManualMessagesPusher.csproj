@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D51C9BA-517C-4AD5-A467-0A42AECD4D49}</ProjectGuid>
+    <ProjectGuid>{8C8D7010-C345-4225-9EFE-9358C1E13DE2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IronTester.Common</RootNamespace>
-    <AssemblyName>IronTester.Common</AssemblyName>
+    <RootNamespace>IronTester.ManualMessagesPusher</RootNamespace>
+    <AssemblyName>IronTester.ManualMessagesPusher</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,11 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="NServiceBus">
       <HintPath>..\packages\NServiceBus.Interfaces.4.6.5\lib\net40\NServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="NServiceBus.Core">
       <HintPath>..\packages\NServiceBus.4.6.5\lib\net40\NServiceBus.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Host">
+      <HintPath>..\packages\NServiceBus.Host.4.6.5\lib\net40\NServiceBus.Host.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,30 +53,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\PleaseCancelTests.cs" />
-    <Compile Include="Commands\PleaseDoTests.cs" />
-    <Compile Include="Commands\PleaseFail.cs" />
-    <Compile Include="Commands\PleaseRestart.cs" />
-    <Compile Include="Commands\PleaseThrowException.cs" />
-    <Compile Include="Messages\Builds\IBuildsFinished.cs" />
-    <Compile Include="Messages\Builds\IBuildsRequest.cs" />
-    <Compile Include="Messages\Builds\IBuildsStatus.cs" />
-    <Compile Include="Messages\Initialization\IInitializeFinished.cs" />
-    <Compile Include="Messages\Initialization\IInitializeRequest.cs" />
-    <Compile Include="Messages\Initialization\IInitializeStatus.cs" />
-    <Compile Include="Messages\Tests\ITestsFinished.cs" />
-    <Compile Include="Messages\Tests\ITestsRequest.cs" />
-    <Compile Include="Messages\Tests\ITestsStatus.cs" />
-    <Compile Include="Messages\Validation\IValidationFinished.cs" />
-    <Compile Include="Messages\Validation\IValidationRequestConfirmation.cs" />
-    <Compile Include="Messages\Validation\IValidationStatus.cs" />
-    <Compile Include="Messages\Saga\IValidationRequest.cs" />
+    <Compile Include="EndpointConfig.cs" />
+    <Compile Include="ManualMessagesPusher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\IronTester.Common\IronTester.Common.csproj">
+      <Project>{2d51c9ba-517c-4ad5-a467-0a42aecd4d49}</Project>
+      <Name>IronTester.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -86,4 +82,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(ProjectDir)$(OutputPath)NServiceBus.Host.exe</StartProgram>
+  </PropertyGroup>
 </Project>
