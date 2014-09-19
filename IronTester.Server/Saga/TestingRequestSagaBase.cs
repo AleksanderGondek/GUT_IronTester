@@ -2,6 +2,7 @@
 using IronTester.Common.Commands;
 using IronTester.Common.Messages.Builds;
 using IronTester.Common.Messages.Initialization;
+using IronTester.Common.Messages.Saga;
 using IronTester.Common.Messages.Tests;
 using IronTester.Common.Messages.Validation;
 using IronTester.Common.Metadata;
@@ -39,8 +40,16 @@ namespace IronTester.Server.Saga
             Data.TestsRequested = command.TestsRequested;
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.TestingRequested);
 
-            // TODO: Saga changed state notification
-            // TODO: Request validation
+            // Saga changed state notification
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
+
+            // Request validation
+            Bus.Publish(Bus.CreateInstance<IPleaseValidate>(
+                x =>
+                {
+                    x.RequestId = Data.RequestId;
+                    x.TestsRequested = Data.TestsRequested;
+                }));
         }
 
 
@@ -59,10 +68,44 @@ namespace IronTester.Server.Saga
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.TestingRequested);
         }
 
-        public bool StopAllOperations()
+        private bool StopAllOperations()
         {
             // TODO: Logic responisble for stoping Validation/Initialization/etc
             return true;
+        }
+
+        private void NotifyOfSagaStateChange(TestingRequestSagaStates state, string errorText)
+        {
+            if (TestingRequestSagaStates.Failed == state)
+            {
+                Bus.Publish(Bus.CreateInstance<IProcessFailed>(
+                    x =>
+                    {
+                        x.RequestId = Data.RequestId;
+                        x.CurrentSagaState = Data.CurrentState;
+                        x.FailureReasons = errorText;
+                    }));                
+            }
+            else
+            {
+                Bus.Publish(Bus.CreateInstance<ITestingRequestSagaStateHasChanged>(
+                    x =>
+                    {
+                        x.RequestId = Data.RequestId;
+                        x.CurrentSagaState = Data.CurrentState;
+                    }));
+            }
+        }
+
+        private void NotifyOfSagaStateChangeProgress(TestingRequestSagaStates state, decimal progress)
+        {
+            Bus.Publish(Bus.CreateInstance<IProcessUpdate>(
+                x =>
+                {
+                    x.RequestId = Data.RequestId;
+                    x.CurrentSagaState = Data.CurrentState;
+                    x.CurrentProgress = progress;
+                }));            
         }
     }
 }

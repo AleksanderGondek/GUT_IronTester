@@ -1,5 +1,6 @@
 ﻿using System;
 using IronTester.Common.Messages.Builds;
+using IronTester.Common.Messages.Tests;
 using IronTester.Common.Metadata;
 using NServiceBus;
 
@@ -13,6 +14,8 @@ namespace IronTester.Server.Saga
 
             Data.CurrentState = message.WillBuild ? Convert.ToInt32(TestingRequestSagaStates.BuildsStarted) : Convert.ToInt32(TestingRequestSagaStates.Failed);
             Data.BuildsDenialReason = message.DenialReason;
+
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.BuildsDenialReason);
         }
 
         public void Handle(IBuildsStatus message)
@@ -25,6 +28,8 @@ namespace IronTester.Server.Saga
 
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.BuildsInProgress);
             Data.BuildsProgress = message.Progress;
+
+            NotifyOfSagaStateChangeProgress((TestingRequestSagaStates)Data.CurrentState, Data.BuildsProgress);
         }
 
         public void Handle(IBuildsFinished message)
@@ -36,10 +41,16 @@ namespace IronTester.Server.Saga
             Data.PathToBuildsArtifacts = message.PathToBuildsArtifacts;
             Data.CurrentState = message.BuildsSuccessful ? Convert.ToInt32(TestingRequestSagaStates.BuildsFinished) : Convert.ToInt32(TestingRequestSagaStates.Failed);
 
-            // TODO: Saga changed state notification
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.BuildsFailReason);
 
             if (Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
-            // TODO: Request Tests
+            
+            Bus.Publish(Bus.CreateInstance<IPleaseTest>(
+                x =>
+                {
+                    x.RequestId = Data.RequestId;
+                    x.SourceCodeLocation = Data.PathToBuildsArtifacts;
+                }));
         }
     }
 }

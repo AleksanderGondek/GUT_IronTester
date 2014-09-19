@@ -13,6 +13,8 @@ namespace IronTester.Server.Saga
 
             Data.CurrentState = message.WillTest ? Convert.ToInt32(TestingRequestSagaStates.TestsStarted) : Convert.ToInt32(TestingRequestSagaStates.Failed);
             Data.TestsDenialReason = message.DenialReason;
+
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.TestsDenialReason);
         }
 
         public void Handle(ITestsStatus message)
@@ -25,6 +27,8 @@ namespace IronTester.Server.Saga
 
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.TestsInProgress);
             Data.TestingProgress = message.Progress;
+
+            NotifyOfSagaStateChangeProgress((TestingRequestSagaStates)Data.CurrentState, Data.TestingProgress);
         }
 
         public void Handle(ITestsFinished message)
@@ -36,7 +40,7 @@ namespace IronTester.Server.Saga
             Data.TestsArtifactsLocation = message.TestsArtifactsLocation;
             Data.CurrentState = message.TestsSuccessful ? Convert.ToInt32(TestingRequestSagaStates.Finished) : Convert.ToInt32(TestingRequestSagaStates.Failed);
 
-            // TODO: Saga changed state notification
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.BuildsFailReason);
 
             if (Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
             //TODO: Saga finished notification

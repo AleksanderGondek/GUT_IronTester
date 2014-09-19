@@ -1,5 +1,7 @@
 ﻿using System;
+using IronTester.Common.Messages.Builds;
 using IronTester.Common.Messages.Initialization;
+using IronTester.Common.Messages.Validation;
 using IronTester.Common.Metadata;
 using NServiceBus;
 
@@ -13,6 +15,8 @@ namespace IronTester.Server.Saga
 
             Data.CurrentState = message.WillInitialize ? Convert.ToInt32(TestingRequestSagaStates.InitializationStarted) : Convert.ToInt32(TestingRequestSagaStates.Failed);
             Data.InitializationDenialReason = message.DenialReason;
+
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.InitializationDenialReason);
         }
 
         public void Handle(IInitializeStatus message)
@@ -25,6 +29,8 @@ namespace IronTester.Server.Saga
 
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.InitializationInProgress);
             Data.InitializationProgress = message.Progress;
+
+            NotifyOfSagaStateChangeProgress((TestingRequestSagaStates)Data.CurrentState, Data.InitializationProgress);
         }
 
         public void Handle(IInitializeFinished message)
@@ -36,10 +42,16 @@ namespace IronTester.Server.Saga
             Data.PathToInitializedFiles = message.PathToInitializedFiles;
             Data.CurrentState = message.InitializationSuccessful ? Convert.ToInt32(TestingRequestSagaStates.InitializationFinished) : Convert.ToInt32(TestingRequestSagaStates.Failed);
 
-            // TODO: Saga changed state notification
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.InitializationFailReason);
 
             if (Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
-            // TODO: Request Builds
+
+            Bus.Publish(Bus.CreateInstance<IPleaseBuild>(
+                x =>
+                {
+                    x.RequestId = Data.RequestId;
+                    x.SourceCodeLocation = Data.PathToInitializedFiles;
+                }));
         }
     }
 }
