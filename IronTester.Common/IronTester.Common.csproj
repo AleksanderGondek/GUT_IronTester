@@ -53,24 +53,25 @@
     <Compile Include="Commands\PleaseRestart.cs" />
     <Compile Include="Commands\PleaseThrowException.cs" />
     <Compile Include="Messages\Builds\IBuildsFinished.cs" />
-    <Compile Include="Messages\Builds\IBuildsRequest.cs" />
+    <Compile Include="Messages\Builds\IBuildsRequestConfirmation.cs" />
     <Compile Include="Messages\Builds\IBuildsStatus.cs" />
     <Compile Include="Messages\Initialization\IInitializeFinished.cs" />
-    <Compile Include="Messages\Initialization\IInitializeRequest.cs" />
+    <Compile Include="Messages\Initialization\IInitializeRequestConfirmation.cs" />
     <Compile Include="Messages\Initialization\IInitializeStatus.cs" />
     <Compile Include="Messages\Tests\ITestsFinished.cs" />
-    <Compile Include="Messages\Tests\ITestsRequest.cs" />
+    <Compile Include="Messages\Tests\ITestsRequestConfirmation.cs" />
     <Compile Include="Messages\Tests\ITestsStatus.cs" />
     <Compile Include="Messages\Validation\IValidationFinished.cs" />
     <Compile Include="Messages\Validation\IValidationRequestConfirmation.cs" />
     <Compile Include="Messages\Validation\IValidationStatus.cs" />
-    <Compile Include="Messages\Saga\IValidationRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Messages\Saga\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

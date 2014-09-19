@@ -1,0 +1,20 @@
+{
+  "Name": "Auto/TestingRequest/ByRequestId",
+  "Map": "from doc in docs.TestingRequest\r\nselect new { RequestId = doc.RequestId }",
+  "Maps": [
+    "from doc in docs.TestingRequest\r\nselect new { RequestId = doc.RequestId }"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "IsTemp": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Suggestions": {},
+  "TermVectors": {},
+  "Type": "Auto"
+}
