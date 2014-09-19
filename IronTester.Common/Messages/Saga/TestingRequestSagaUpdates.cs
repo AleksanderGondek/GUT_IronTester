@@ -1,8 +1,9 @@
 ﻿using System;
+using NServiceBus;
 
 namespace IronTester.Common.Messages.Saga
 {
-    public interface ITestingRequestSagaStateHasChanged
+    public interface ITestingRequestSagaStateHasChanged : IMessage
     {
         Guid RequestId { get; set; }
         int CurrentSagaState { get; set; }

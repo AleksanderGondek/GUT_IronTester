@@ -10,7 +10,7 @@ namespace IronTester.Server.Saga
     {
         public void Handle(IBuildsRequestConfirmation message)
         {
-            if (Convert.ToInt32(TestingRequestSagaStates.InitializationFinished).Equals(Data.CurrentState)) return;
+            if (!Convert.ToInt32(TestingRequestSagaStates.InitializationFinished).Equals(Data.CurrentState)) return;
 
             Data.CurrentState = message.WillBuild ? Convert.ToInt32(TestingRequestSagaStates.BuildsStarted) : Convert.ToInt32(TestingRequestSagaStates.Failed);
             Data.BuildsDenialReason = message.DenialReason;
@@ -34,7 +34,7 @@ namespace IronTester.Server.Saga
 
         public void Handle(IBuildsFinished message)
         {
-            if (Convert.ToInt32(TestingRequestSagaStates.BuildsInProgress).Equals(Data.CurrentState)) return;
+            if (!Convert.ToInt32(TestingRequestSagaStates.BuildsInProgress).Equals(Data.CurrentState)) return;
 
             Data.BuildsSuccessful = message.BuildsSuccessful;
             Data.BuildsFailReason = message.BuildsFailReason;
@@ -43,7 +43,7 @@ namespace IronTester.Server.Saga
 
             NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.BuildsFailReason);
 
-            if (Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
+            if (!Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
             
             Bus.Publish(Bus.CreateInstance<IPleaseTest>(
                 x =>

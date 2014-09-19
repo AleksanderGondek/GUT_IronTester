@@ -9,7 +9,7 @@ namespace IronTester.Server.Saga
     {
         public void Handle(ITestsRequestConfirmation message)
         {
-            if (Convert.ToInt32(TestingRequestSagaStates.BuildsFinished).Equals(Data.CurrentState)) return;
+            if (!Convert.ToInt32(TestingRequestSagaStates.BuildsFinished).Equals(Data.CurrentState)) return;
 
             Data.CurrentState = message.WillTest ? Convert.ToInt32(TestingRequestSagaStates.TestsStarted) : Convert.ToInt32(TestingRequestSagaStates.Failed);
             Data.TestsDenialReason = message.DenialReason;
@@ -33,7 +33,7 @@ namespace IronTester.Server.Saga
 
         public void Handle(ITestsFinished message)
         {
-            if (Convert.ToInt32(TestingRequestSagaStates.TestsInProgress).Equals(Data.CurrentState)) return;
+            if (!Convert.ToInt32(TestingRequestSagaStates.TestsInProgress).Equals(Data.CurrentState)) return;
 
             Data.TestsSuccessful = message.TestsSuccessful;
             Data.TestsFailReason = message.TestsFailReason;
@@ -41,9 +41,6 @@ namespace IronTester.Server.Saga
             Data.CurrentState = message.TestsSuccessful ? Convert.ToInt32(TestingRequestSagaStates.Finished) : Convert.ToInt32(TestingRequestSagaStates.Failed);
 
             NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.BuildsFailReason);
-
-            if (Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
-            //TODO: Saga finished notification
         }
     }
 }
