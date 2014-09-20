@@ -3,7 +3,7 @@ using NServiceBus;
 
 namespace IronTester.Common.Messages.Validation
 {
-    public interface IValidationRequestConfirmation : IMessage
+    public interface IValidationRequestConfirmation : IEvent
     {
         Guid RequestId { get; set; }
         bool WillValidate { get; set; }

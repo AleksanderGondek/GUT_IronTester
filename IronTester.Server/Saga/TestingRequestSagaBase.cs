@@ -44,12 +44,12 @@ namespace IronTester.Server.Saga
             NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
 
             // Request validation
-            Bus.Publish(Bus.CreateInstance<IPleaseValidate>(
+            Bus.Publish<IPleaseValidate>(
                 x =>
                 {
                     x.RequestId = Data.RequestId;
                     x.TestsRequested = Data.TestsRequested;
-                }));
+                });
         }
 
 

@@ -13,7 +13,7 @@ using NServiceBus;
 namespace IronTester.ManualMessagesPusher
 {
     public class SafetyConsumer : IHandleMessages<ITestingRequestSagaStateHasChanged>, IHandleMessages<IProcessUpdate>, IHandleMessages<IProcessFailed>,
-        IHandleMessages<IPleaseValidate>, IHandleMessages<IPleaseInitialize>, IHandleMessages<IPleaseBuild>, IHandleMessages<IPleaseTest>
+        IHandleMessages<IPleaseInitialize>, IHandleMessages<IPleaseBuild>, IHandleMessages<IPleaseTest>
     {
         public void Handle(ITestingRequestSagaStateHasChanged message)
         {

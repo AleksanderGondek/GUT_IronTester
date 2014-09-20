@@ -28,301 +28,325 @@ namespace IronTester.ManualMessagesPusher
 
             while (Console.ReadLine() != null)
             {
-                Parallel.For(0, 100, x =>
-                                     {
-                                         var guid = Guid.NewGuid();
+                for (var i = 0; i < 10; i++)
+                {
+                    var guid = Guid.NewGuid();
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<PleaseDoTests>(y =>
-                                                                               {
-                                                                                   y.RequestId = guid;
-                                                                                   y.SourceCodeLocation =
-                                                                                       RandomString(10);
-                                                                                   y.TestsRequested =
-                                                                                       new List<string>
-                                                                                       {
-                                                                                           RandomString
-                                                                                               (3),
-                                                                                           RandomString
-                                                                                               (3),
-                                                                                           RandomString
-                                                                                               (3)
-                                                                                       };
-                                                                               }));
+                    Bus.Send("IronTester.Server",
+                        Bus.CreateInstance<PleaseDoTests>(y =>
+                                                          {
+                                                              y.RequestId = guid;
+                                                              y.SourceCodeLocation =
+                                                                  RandomString(10);
+                                                              y.TestsRequested =
+                                                                  new List<string>
+                                                                  {
+                                                                      RandomString
+                                                                          (3),
+                                                                      RandomString
+                                                                          (3),
+                                                                      RandomString
+                                                                          (3)
+                                                                  };
+                                                          }));
+                    Thread.Sleep(2000);
+                }
 
-                                         Thread.Sleep(4000);
+                //Parallel.For(0, 100, x =>
+                //                     {
+                //                         var guid = Guid.NewGuid();
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IValidationRequestConfirmation>(y =>
-                                                                                                {
-                                                                                                    y.RequestId = guid;
-                                                                                                    y.WillValidate =
-                                                                                                        true;
-                                                                                                    y.DenialReson = null;
-                                                                                                }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<PleaseDoTests>(y =>
+                //                                                               {
+                //                                                                   y.RequestId = guid;
+                //                                                                   y.SourceCodeLocation =
+                //                                                                       RandomString(10);
+                //                                                                   y.TestsRequested =
+                //                                                                       new List<string>
+                //                                                                       {
+                //                                                                           RandomString
+                //                                                                               (3),
+                //                                                                           RandomString
+                //                                                                               (3),
+                //                                                                           RandomString
+                //                                                                               (3)
+                //                                                                       };
+                //                                                               }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IValidationStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 0;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IValidationRequestConfirmation>(y =>
+                //                                                                                {
+                //                                                                                    y.RequestId = guid;
+                //                                                                                    y.WillValidate =
+                //                                                                                        true;
+                //                                                                                    y.DenialReson = null;
+                //                                                                                }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IValidationStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 25;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IValidationStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 0;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IValidationStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 50;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IValidationStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 25;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IValidationStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 75;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IValidationStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 50;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IValidationStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 100;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IValidationStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 75;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IValidationFinished>(y =>
-                                                                                     {
-                                                                                         y.RequestId = guid;
-                                                                                         y.ValidationSuccessful = true;
-                                                                                         y.ValidationFailReason = null;
-                                                                                     }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IValidationStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 100;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IInitializeRequestConfirmation>(y =>
-                                                                                                {
-                                                                                                    y.RequestId = guid;
-                                                                                                    y.WillInitialize =
-                                                                                                        true;
-                                                                                                    y.DenialReason =
-                                                                                                        null;
-                                                                                                }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IValidationFinished>(y =>
+                //                                                                     {
+                //                                                                         y.RequestId = guid;
+                //                                                                         y.ValidationSuccessful = true;
+                //                                                                         y.ValidationFailReason = null;
+                //                                                                     }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IInitializeStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 0;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IInitializeRequestConfirmation>(y =>
+                //                                                                                {
+                //                                                                                    y.RequestId = guid;
+                //                                                                                    y.WillInitialize =
+                //                                                                                        true;
+                //                                                                                    y.DenialReason =
+                //                                                                                        null;
+                //                                                                                }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IInitializeStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 25;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IInitializeStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 0;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IInitializeStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 50;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IInitializeStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 25;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IInitializeStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 75;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IInitializeStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 50;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IInitializeStatus>(y =>
-                                                                                   {
-                                                                                       y.RequestId = guid;
-                                                                                       y.Progress = 100;
-                                                                                   }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IInitializeStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 75;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IInitializeFinished>(y =>
-                                                                                     {
-                                                                                         y.RequestId = guid;
-                                                                                         y.InitializationSuccessful =
-                                                                                             true;
-                                                                                         y.InitializationFailReason =
-                                                                                             null;
-                                                                                         y.PathToInitializedFiles =
-                                                                                             RandomString(20);
-                                                                                     }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IInitializeStatus>(y =>
+                //                                                                   {
+                //                                                                       y.RequestId = guid;
+                //                                                                       y.Progress = 100;
+                //                                                                   }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IBuildsRequestConfirmation>(y =>
-                                                                                            {
-                                                                                                y.RequestId = guid;
-                                                                                                y.WillBuild = true;
-                                                                                                y.DenialReason = null;
-                                                                                            }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IInitializeFinished>(y =>
+                //                                                                     {
+                //                                                                         y.RequestId = guid;
+                //                                                                         y.InitializationSuccessful =
+                //                                                                             true;
+                //                                                                         y.InitializationFailReason =
+                //                                                                             null;
+                //                                                                         y.PathToInitializedFiles =
+                //                                                                             RandomString(20);
+                //                                                                     }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IBuildsStatus>(y =>
-                                                                               {
-                                                                                   y.RequestId = guid;
-                                                                                   y.Progress = 0;
-                                                                               }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IBuildsRequestConfirmation>(y =>
+                //                                                                            {
+                //                                                                                y.RequestId = guid;
+                //                                                                                y.WillBuild = true;
+                //                                                                                y.DenialReason = null;
+                //                                                                            }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IBuildsStatus>(y =>
-                                                                               {
-                                                                                   y.RequestId = guid;
-                                                                                   y.Progress = 25;
-                                                                               }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IBuildsStatus>(y =>
+                //                                                               {
+                //                                                                   y.RequestId = guid;
+                //                                                                   y.Progress = 0;
+                //                                                               }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IBuildsStatus>(y =>
-                                                                               {
-                                                                                   y.RequestId = guid;
-                                                                                   y.Progress = 50;
-                                                                               }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IBuildsStatus>(y =>
+                //                                                               {
+                //                                                                   y.RequestId = guid;
+                //                                                                   y.Progress = 25;
+                //                                                               }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IBuildsStatus>(y =>
-                                                                               {
-                                                                                   y.RequestId = guid;
-                                                                                   y.Progress = 75;
-                                                                               }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IBuildsStatus>(y =>
+                //                                                               {
+                //                                                                   y.RequestId = guid;
+                //                                                                   y.Progress = 50;
+                //                                                               }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IBuildsStatus>(y =>
-                                                                               {
-                                                                                   y.RequestId = guid;
-                                                                                   y.Progress = 100;
-                                                                               }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IBuildsStatus>(y =>
+                //                                                               {
+                //                                                                   y.RequestId = guid;
+                //                                                                   y.Progress = 75;
+                //                                                               }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<IBuildsFinished>(y =>
-                                                                                 {
-                                                                                     y.RequestId = guid;
-                                                                                     y.BuildsSuccessful = true;
-                                                                                     y.BuildsFailReason = null;
-                                                                                     y.PathToBuildsArtifacts =
-                                                                                         RandomString(20);
-                                                                                 }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IBuildsStatus>(y =>
+                //                                                               {
+                //                                                                   y.RequestId = guid;
+                //                                                                   y.Progress = 100;
+                //                                                               }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<ITestsRequestConfirmation>(y =>
-                                                                                           {
-                                                                                               y.RequestId = guid;
-                                                                                               y.WillTest = true;
-                                                                                               y.DenialReason = null;
-                                                                                           }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<IBuildsFinished>(y =>
+                //                                                                 {
+                //                                                                     y.RequestId = guid;
+                //                                                                     y.BuildsSuccessful = true;
+                //                                                                     y.BuildsFailReason = null;
+                //                                                                     y.PathToBuildsArtifacts =
+                //                                                                         RandomString(20);
+                //                                                                 }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<ITestsStatus>(y =>
-                                                                              {
-                                                                                  y.RequestId = guid;
-                                                                                  y.Progress = 0;
-                                                                              }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<ITestsRequestConfirmation>(y =>
+                //                                                                           {
+                //                                                                               y.RequestId = guid;
+                //                                                                               y.WillTest = true;
+                //                                                                               y.DenialReason = null;
+                //                                                                           }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<ITestsStatus>(y =>
-                                                                              {
-                                                                                  y.RequestId = guid;
-                                                                                  y.Progress = 25;
-                                                                              }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<ITestsStatus>(y =>
+                //                                                              {
+                //                                                                  y.RequestId = guid;
+                //                                                                  y.Progress = 0;
+                //                                                              }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<ITestsStatus>(y =>
-                                                                              {
-                                                                                  y.RequestId = guid;
-                                                                                  y.Progress = 50;
-                                                                              }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<ITestsStatus>(y =>
+                //                                                              {
+                //                                                                  y.RequestId = guid;
+                //                                                                  y.Progress = 25;
+                //                                                              }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<ITestsStatus>(y =>
-                                                                              {
-                                                                                  y.RequestId = guid;
-                                                                                  y.Progress = 75;
-                                                                              }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<ITestsStatus>(y =>
+                //                                                              {
+                //                                                                  y.RequestId = guid;
+                //                                                                  y.Progress = 50;
+                //                                                              }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<ITestsStatus>(y =>
-                                                                              {
-                                                                                  y.RequestId = guid;
-                                                                                  y.Progress = 100;
-                                                                              }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<ITestsStatus>(y =>
+                //                                                              {
+                //                                                                  y.RequestId = guid;
+                //                                                                  y.Progress = 75;
+                //                                                              }));
 
-                                         Thread.Sleep(4000);
+                //                         Thread.Sleep(4000);
 
-                                         Bus.Send("IronTester.Server",
-                                             Bus.CreateInstance<ITestsFinished>(y =>
-                                                                                {
-                                                                                    y.RequestId = guid;
-                                                                                    y.TestsSuccessful = true;
-                                                                                    y.TestsFailReason = null;
-                                                                                    y.TestsArtifactsLocation =
-                                                                                        RandomString(20);
-                                                                                }));
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<ITestsStatus>(y =>
+                //                                                              {
+                //                                                                  y.RequestId = guid;
+                //                                                                  y.Progress = 100;
+                //                                                              }));
 
-                                         Thread.Sleep(4000);
-                                     });
+                //                         Thread.Sleep(4000);
+
+                //                         Bus.Send("IronTester.Server",
+                //                             Bus.CreateInstance<ITestsFinished>(y =>
+                //                                                                {
+                //                                                                    y.RequestId = guid;
+                //                                                                    y.TestsSuccessful = true;
+                //                                                                    y.TestsFailReason = null;
+                //                                                                    y.TestsArtifactsLocation =
+                //                                                                        RandomString(20);
+                //                                                                }));
+
+                //                         Thread.Sleep(4000);
+                //                     });
             }
         }
 
