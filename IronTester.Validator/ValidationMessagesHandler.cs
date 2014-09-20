@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using IronTester.Common.Messages.Validation;
+﻿using IronTester.Common.Messages.Validation;
 using NServiceBus;
-using System;
 
 namespace IronTester.Validator
 {

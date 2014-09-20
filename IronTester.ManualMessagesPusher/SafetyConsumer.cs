@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using IronTester.Common.Messages.Builds;
 using IronTester.Common.Messages.Initialization;
 using IronTester.Common.Messages.Saga;
@@ -13,7 +9,7 @@ using NServiceBus;
 namespace IronTester.ManualMessagesPusher
 {
     public class SafetyConsumer : IHandleMessages<ITestingRequestSagaStateHasChanged>, IHandleMessages<IProcessUpdate>, IHandleMessages<IProcessFailed>,
-        IHandleMessages<IPleaseInitialize>, IHandleMessages<IPleaseBuild>, IHandleMessages<IPleaseTest>
+        IHandleMessages<IPleaseBuild>, IHandleMessages<IPleaseTest>
     {
         public void Handle(ITestingRequestSagaStateHasChanged message)
         {

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using IronTester.Common.Messages.Validation;
 using NServiceBus;
 using NServiceBus.AutomaticSubscriptions;
-using NServiceBus.Features;
 
 namespace IronTester.Validator
 {
@@ -13,14 +12,13 @@ namespace IronTester.Validator
         public void Init()
         {
             Configure.Serialization.Json();
-            Configure.Features.AutoSubscribe(f => f.CustomAutoSubscriptionStrategy<IronAutoSub>());
-
+            Configure.Features.AutoSubscribe(f => f.CustomAutoSubscriptionStrategy<IronAutoSubOne>());
             Configure.With()
                 .Log4Net();
         }
     }
 
-    public class IronAutoSub : IAutoSubscriptionStrategy
+    public class IronAutoSubOne : IAutoSubscriptionStrategy
     {
         public IEnumerable<Type> GetEventsToSubscribe()
         {

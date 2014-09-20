@@ -70,7 +70,7 @@
     <Compile Include="Messages\Validation\IValidationRequestConfirmation.cs" />
     <Compile Include="Messages\Validation\IValidationStatus.cs" />
     <Compile Include="Metadata\Constants.cs" />
-    <Compile Include="Metadata\ValidTestRequests.cs" />
+    <Compile Include="Metadata\ValidationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

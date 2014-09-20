@@ -42,7 +42,7 @@ namespace IronTester.Server.Saga
 
             NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.ValidationFailReason);
 
-            if (!Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
+            if (Convert.ToInt32(TestingRequestSagaStates.Failed).Equals(Data.CurrentState)) return;
 
             Bus.Publish(Bus.CreateInstance<IPleaseInitialize>(
                 x =>

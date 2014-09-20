@@ -27,10 +27,8 @@ namespace IronTester.Validator
 
         public void Start()
         {
-            Bus.Subscribe<IPleaseValidate>();
             // Run ValidateRequest every 60 seconds, start after 1 second
             _timer = new Timer(_timerCallbackValidate, null, 1000, 60000);
-            Console.Out.WriteLine("==========================================================");
         }
 
         public void Stop()
@@ -41,7 +39,6 @@ namespace IronTester.Validator
         public void ValidateRequest(Object stateInfo)
         {
             // Validation
-            Console.Out.WriteLine("VALID VALID VALID VALID VALID");
             Parallel.ForEach(Requests, request =>
                                        {
                                            //Pretend to do some validation
@@ -63,7 +60,7 @@ namespace IronTester.Validator
                                            // Do actual validation
                                            var isRequestValid =
                                                request.Value.TestsRequested.All(
-                                                   x => ValidTestRequests.ValidTests.Contains(x));
+                                                   x => ValidationData.ValidTests.Contains(x));
 
                                            request.Value.IsValid = isRequestValid;
                                            request.Value.ValidationFailReason = isRequestValid ? null : "Invalid tests requested";

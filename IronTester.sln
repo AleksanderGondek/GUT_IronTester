@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronTester.Server", "IronTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronTester.Validator", "IronTester.Validator\IronTester.Validator.csproj", "{6B5DDABA-DD3E-46C0-ADE7-8455449F0CFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronTester.Initializer", "IronTester.Initializer\IronTester.Initializer.csproj", "{8922B28D-0FD5-4685-A7BE-53706519BBED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{6B5DDABA-DD3E-46C0-ADE7-8455449F0CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B5DDABA-DD3E-46C0-ADE7-8455449F0CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B5DDABA-DD3E-46C0-ADE7-8455449F0CFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8922B28D-0FD5-4685-A7BE-53706519BBED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8922B28D-0FD5-4685-A7BE-53706519BBED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8922B28D-0FD5-4685-A7BE-53706519BBED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8922B28D-0FD5-4685-A7BE-53706519BBED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

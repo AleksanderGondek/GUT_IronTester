@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using IronTester.Common.Messages.Initialization;
 using IronTester.Common.Messages.Validation;
 using NServiceBus;
 using NServiceBus.AutomaticSubscriptions;
@@ -12,18 +13,23 @@ namespace IronTester.Server
         public void Init()
         {
             Configure.Serialization.Json();
-            Configure.Features.AutoSubscribe(f => f.CustomAutoSubscriptionStrategy<IronAutoSub>());
+            Configure.Features.AutoSubscribe(f => f.CustomAutoSubscriptionStrategy<IronAutoSubZero>());
 
             Configure.With()
                 .Log4Net();
         }
     }
 
-    public class IronAutoSub : IAutoSubscriptionStrategy
+    public class IronAutoSubZero : IAutoSubscriptionStrategy
     {
         public IEnumerable<Type> GetEventsToSubscribe()
         {
-            return new BindingList<Type> { typeof(IValidationRequestConfirmation), typeof(IValidationStatus), typeof(IValidationFinished) };
+            return new BindingList<Type> { typeof(IValidationRequestConfirmation)
+                                            , typeof(IValidationStatus)
+                                            , typeof(IValidationFinished)
+                                            , typeof(IInitializeStatus)
+                                            , typeof(IInitializeRequestConfirmation)
+                                            , typeof(IInitializeFinished)};
         }
     }
 

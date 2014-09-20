@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using IronTester.Common.Messages.Builds;
 using IronTester.Common.Messages.Initialization;
 using IronTester.Common.Messages.Tests;
 using IronTester.Common.Messages.Validation;
+using IronTester.Common.Metadata;
 using NServiceBus;
 
 namespace IronTester.ManualMessagesPusher
@@ -37,16 +39,13 @@ namespace IronTester.ManualMessagesPusher
                                                           {
                                                               y.RequestId = guid;
                                                               y.SourceCodeLocation =
-                                                                  RandomString(10);
+                                                                  GetRandomSourcePath();
                                                               y.TestsRequested =
                                                                   new List<string>
                                                                   {
-                                                                      RandomString
-                                                                          (3),
-                                                                      RandomString
-                                                                          (3),
-                                                                      RandomString
-                                                                          (3)
+                                                                      GetRandomTest(),
+                                                                      GetRandomTest(),
+                                                                      GetRandomTest()
                                                                   };
                                                           }));
                     Thread.Sleep(2000);
@@ -367,6 +366,20 @@ namespace IronTester.ManualMessagesPusher
             }
 
             return builder.ToString();
+        }
+
+        public static string GetRandomTest()
+        {
+            var random = new Random((int)DateTime.Now.Ticks);
+            var index = random.Next(ValidationData.ValidTests.Count);
+            return ValidationData.ValidTests.ElementAt(index);
+        }
+
+        public static string GetRandomSourcePath()
+        {
+            var random = new Random((int)DateTime.Now.Ticks);
+            var index = random.Next(ValidationData.ValidInitializationPaths.Count);
+            return ValidationData.ValidInitializationPaths.ElementAt(index);
         }
     }
 }
