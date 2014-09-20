@@ -370,14 +370,14 @@ namespace IronTester.ManualMessagesPusher
 
         public static string GetRandomTest()
         {
-            var random = new Random((int)DateTime.Now.Ticks);
+            var random = new Random(DateTime.Now.Millisecond);
             var index = random.Next(ValidationData.ValidTests.Count);
             return ValidationData.ValidTests.ElementAt(index);
         }
 
         public static string GetRandomSourcePath()
         {
-            var random = new Random((int)DateTime.Now.Ticks);
+            var random = new Random(DateTime.Now.Millisecond);
             var index = random.Next(ValidationData.ValidInitializationPaths.Count);
             return ValidationData.ValidInitializationPaths.ElementAt(index);
         }

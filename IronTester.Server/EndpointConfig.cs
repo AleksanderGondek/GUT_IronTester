@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using IronTester.Common.Messages.Builds;
 using IronTester.Common.Messages.Initialization;
+using IronTester.Common.Messages.Tests;
 using IronTester.Common.Messages.Validation;
 using NServiceBus;
 using NServiceBus.AutomaticSubscriptions;
@@ -29,7 +31,13 @@ namespace IronTester.Server
                                             , typeof(IValidationFinished)
                                             , typeof(IInitializeStatus)
                                             , typeof(IInitializeRequestConfirmation)
-                                            , typeof(IInitializeFinished)};
+                                            , typeof(IInitializeFinished)
+                                            , typeof(IBuildsStatus)
+                                            , typeof(IBuildsRequestConfirmation)
+                                            , typeof(IBuildsFinished)
+                                            , typeof(ITestsStatus)
+                                            , typeof(ITestsRequestConfirmation)
+                                            , typeof(ITestsFinished)};
         }
     }
 

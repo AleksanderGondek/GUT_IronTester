@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using IronTester.Common.Messages.Initialization;
+using IronTester.Common.Messages.Builds;
 using IronTester.Common.Metadata;
 using NServiceBus;
 
-namespace IronTester.Initializer
+namespace IronTester.Builder
 {
-    public class InitializationWorker : IWantToRunWhenBusStartsAndStops
+    public class BuildsWorker : IWantToRunWhenBusStartsAndStops
     {
         public IBus Bus { get; set; }
         public readonly object BusLock;
@@ -18,10 +20,10 @@ namespace IronTester.Initializer
         private static Timer _timer;
         private static TimerCallback _timerCallbackValidate;
 
-        public InitializationWorker()
+        public BuildsWorker()
         {
             Requests = new ConcurrentDictionary<Guid, RequestModel>();
-            _timerCallbackValidate = InitializeRequest;
+            _timerCallbackValidate = BuildRequest;
             BusLock = new object();
         }
 
@@ -36,18 +38,18 @@ namespace IronTester.Initializer
             _timer.Dispose();
         }
 
-        public void InitializeRequest(Object stateInfo)
+        public void BuildRequest(Object stateInfo)
         {
-            // Initialize
+            // Building
             Parallel.ForEach(Requests, request =>
             {
-                //Pretend to do some initialization
+                //Pretend to do some Building
                 for (decimal i = 0; i <= 50; i += 10)
                 {
                     lock (BusLock)
                     {
                         var i1 = i;
-                        Bus.Publish<IInitializeStatus>(m =>
+                        Bus.Publish<IBuildsStatus>(m =>
                         {
                             m.RequestId = request.Key;
                             m.Progress = i1;
@@ -58,7 +60,7 @@ namespace IronTester.Initializer
                 }
 
                 // Check if source code path is correct
-                var isRequestValid = ValidationData.ValidInitializationPaths.Contains(request.Value.SourceCodeLocation);
+                var isRequestValid = ValidationData.ValidInitializedFilesPaths.Contains(request.Value.SourceCodeLocation);
 
                 request.Value.IsValid = isRequestValid;
                 request.Value.ValidationFailReason = isRequestValid ? null : "Invalid source code path";
@@ -71,7 +73,7 @@ namespace IronTester.Initializer
                         lock (BusLock)
                         {
                             var i1 = i;
-                            Bus.Publish<IInitializeStatus>(m =>
+                            Bus.Publish<IBuildsStatus>(m =>
                             {
                                 m.RequestId = request.Key;
                                 m.Progress = i1;
@@ -85,12 +87,12 @@ namespace IronTester.Initializer
                 //Send Finish Notification
                 lock (BusLock)
                 {
-                    Bus.Publish<IInitializeFinished>(m =>
+                    Bus.Publish<IBuildsFinished>(m =>
                     {
                         m.RequestId = request.Key;
-                        m.InitializationSuccessful = request.Value.IsValid;
-                        m.InitializationFailReason = request.Value.ValidationFailReason;
-                        m.PathToInitializedFiles = GetRandomValidInitializedFilesPath();
+                        m.BuildsSuccessful = request.Value.IsValid;
+                        m.BuildsFailReason = request.Value.ValidationFailReason;
+                        m.PathToBuildsArtifacts = GetRandomBuildsArtifactsPath();
                     });
                 }
 
@@ -106,11 +108,11 @@ namespace IronTester.Initializer
             }
         }
 
-        public static string GetRandomValidInitializedFilesPath()
+        public static string GetRandomBuildsArtifactsPath()
         {
             var random = new Random(DateTime.Now.Millisecond);
-            var index = random.Next(ValidationData.ValidInitializedFilesPaths.Count);
-            return ValidationData.ValidInitializedFilesPaths.ElementAt(index);
+            var index = random.Next(ValidationData.ValidBuildsArtifactsPaths.Count);
+            return ValidationData.ValidBuildsArtifactsPaths.ElementAt(index);
         }
     }
 }

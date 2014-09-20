@@ -1,4 +1,4 @@
-﻿namespace IronTester.Initializer
+﻿namespace IronTester.Builder
 {
     public class RequestModel
     {
