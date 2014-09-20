@@ -1,9 +1,11 @@
-﻿using IronTester.Common.Messages.Initialization;
+﻿using System;
+using IronTester.Common.Messages.CancelRequest;
+using IronTester.Common.Messages.Initialization;
 using NServiceBus;
 
 namespace IronTester.Initializer
 {
-    public class InitializationMessagesHandler : IHandleMessages<IPleaseInitialize>
+    public class InitializationMessagesHandler : IHandleMessages<IPleaseInitialize>, IHandleMessages<IPleaseCancel>
     {
         public IBus Bus { get; set; }
 
@@ -29,6 +31,13 @@ namespace IronTester.Initializer
                 x.WillInitialize = willHandleRequest;
                 x.DenialReason = willHandleRequest ? null : "Request already exists within initializator";
             });
+        }
+
+        public void Handle(IPleaseCancel message)
+        {
+            if (!InitializationWorker.Requests.ContainsKey(message.RequestId)) return;
+            RequestModel removedItem;
+            InitializationWorker.Requests.TryRemove(message.RequestId, out removedItem);
         }
     }
 }

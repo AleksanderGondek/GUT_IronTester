@@ -1,9 +1,11 @@
-﻿using IronTester.Common.Messages.Builds;
+﻿using System;
+using IronTester.Common.Messages.Builds;
+using IronTester.Common.Messages.CancelRequest;
 using NServiceBus;
 
 namespace IronTester.Builder
 {
-    public class BuildsMessagesHandler : IHandleMessages<IPleaseBuild>
+    public class BuildsMessagesHandler : IHandleMessages<IPleaseBuild>, IHandleMessages<IPleaseCancel>
     {
         public IBus Bus { get; set; }
 
@@ -29,6 +31,13 @@ namespace IronTester.Builder
                 x.WillBuild = willHandleRequest;
                 x.DenialReason = willHandleRequest ? null : "Request already exists within builder!";
             });
+        }
+
+        public void Handle(IPleaseCancel message)
+        {
+            if (!BuildsWorker.Requests.ContainsKey(message.RequestId)) return;
+            RequestModel removedItem;
+            BuildsWorker.Requests.TryRemove(message.RequestId, out removedItem);
         }
     }
 }

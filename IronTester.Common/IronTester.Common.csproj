@@ -56,6 +56,7 @@
     <Compile Include="Messages\Builds\IBuildsRequestConfirmation.cs" />
     <Compile Include="Messages\Builds\IBuildsStatus.cs" />
     <Compile Include="Messages\Builds\IPleaseBuild.cs" />
+    <Compile Include="Messages\CancelRequest\IPleaseCancel.cs" />
     <Compile Include="Messages\Initialization\IInitializeFinished.cs" />
     <Compile Include="Messages\Initialization\IInitializeRequestConfirmation.cs" />
     <Compile Include="Messages\Initialization\IInitializeStatus.cs" />

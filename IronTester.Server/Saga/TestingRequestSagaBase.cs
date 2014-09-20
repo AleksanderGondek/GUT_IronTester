@@ -1,6 +1,7 @@
 ﻿using System;
 using IronTester.Common.Commands;
 using IronTester.Common.Messages.Builds;
+using IronTester.Common.Messages.CancelRequest;
 using IronTester.Common.Messages.Initialization;
 using IronTester.Common.Messages.Saga;
 using IronTester.Common.Messages.Tests;
@@ -70,8 +71,18 @@ namespace IronTester.Server.Saga
 
         private bool StopAllOperations()
         {
-            // TODO: Logic responisble for stoping Validation/Initialization/etc
-            return true;
+            var thereWasAnError = false;
+            
+            try
+            {
+                Bus.Publish<IPleaseCancel>(x =>{x.RequestId = Data.RequestId;});
+            }
+            catch (Exception)
+            {
+                thereWasAnError = true;
+            }
+
+            return thereWasAnError;
         }
 
         private void NotifyOfSagaStateChange(TestingRequestSagaStates state, string errorText)

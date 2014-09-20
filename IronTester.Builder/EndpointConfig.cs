@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using IronTester.Common.Messages.Builds;
+using IronTester.Common.Messages.CancelRequest;
 using NServiceBus;
 using NServiceBus.AutomaticSubscriptions;
 
@@ -23,7 +24,7 @@ namespace IronTester.Builder
     {
         public IEnumerable<Type> GetEventsToSubscribe()
         {
-            return new BindingList<Type> { typeof(IPleaseBuild) };
+            return new BindingList<Type> { typeof(IPleaseBuild), typeof(IPleaseCancel) };
         }
     }
 }
