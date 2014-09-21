@@ -3,7 +3,7 @@ using NServiceBus;
 
 namespace IronTester.Common.Messages.Saga
 {
-    public interface ITestingRequestSagaStateHasChanged : IMessage
+    public interface ITestingRequestSagaStateHasChanged : IEvent
     {
         Guid RequestId { get; set; }
         int CurrentSagaState { get; set; }
