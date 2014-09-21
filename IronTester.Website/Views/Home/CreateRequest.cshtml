@@ -1,0 +1,60 @@
+﻿@model IronTester.Website.Models.RequestCreationModel
+
+@{
+    ViewBag.Title = "CreateRequest";
+    ViewBag.CreateRequestClass = "active";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h1>CreateRequest</h1>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>RequestCreationModel</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SourceCodeLocation, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.SourceCodeLocation, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SourceCodeLocation, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="tooltip-here">
+                        <button type="button" class="btn btn-default btn-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="@ViewBag.ValidSourceCodePaths" data-original-title="" title="">
+                            <i class="fa fa-question"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TestsRequested, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.TestsRequested, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TestsRequested, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="tooltip-here">
+                        <button type="button" class="btn btn-default btn-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="@ViewBag.ValidTests" data-original-title="" title="">
+                            <i class="fa fa-question"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-6">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "AllRequests")
+        </div>
+    </div>
+</div>
+<script>
+    $("[data-toggle=popover]")
+    .popover()
+</script>

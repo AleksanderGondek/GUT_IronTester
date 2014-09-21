@@ -56,17 +56,27 @@ namespace IronTester.Server.Saga
 
         public void Handle(PleaseCancelTests message)
         {
-            if (!StopAllOperations()) return;
+            if (StopAllOperations()) return;
 
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.Cancelled);
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
         }
 
         public void Handle(PleaseRestart message)
         {
-            if (!StopAllOperations()) return;
+            if (StopAllOperations()) return;
 
             TestingRequestData.WipeClean(Data);
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.TestingRequested);
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
+
+            // Request validation
+            Bus.Publish<IPleaseValidate>(
+                x =>
+                {
+                    x.RequestId = Data.RequestId;
+                    x.TestsRequested = Data.TestsRequested;
+                });
         }
 
         private bool StopAllOperations()

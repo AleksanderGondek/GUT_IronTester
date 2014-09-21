@@ -6,5 +6,64 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Dashboard</h1>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Some stats
+            </div>
+            <div class="panel-body">
+                <div id="dupasex"></div>
+            </div>
+        </div>
     </div>
 </div>
+<script src="~/Content/js/plugins/morris/raphael.min.js"></script>
+<script src="~/Content/js/plugins/morris/morris.min.js"></script>
+<script src="~/Content/js/plugins/morris/morris-data.js"></script>
+<script>
+    data = [];
+
+    //data example format
+    //data = [
+    //    { y: '2012-02-24 15:00:00', totalNumberOfRequests: 0, failedRequests: 0, cancelledRequests: 0, validatedRequests: 0, initializedRequests: 0, buildRequests: 0, testedRequests: 0, finishedRequests: 0 },
+    //    { y: '2012-02-24 16:00:00', totalNumberOfRequests: 15, failedRequests: 1, cancelledRequests: 2, validatedRequests: 12, initializedRequests: 8, buildRequests: 4, testedRequests: 0, finishedRequests: 0 },
+    //    { y: '2012-02-24 17:00:00', totalNumberOfRequests: 15, failedRequests: 10, cancelledRequests: 0, validatedRequests: 12, initializedRequests: 12, buildRequests: 8, testedRequests: 4, finishedRequests: 2 }
+    //];
+
+    var plot = Morris.Area({
+        element: 'dupasex',
+        data: data,
+        xkey: 'y',
+        ykeys: ['totalNumberOfRequests', 'failedRequests', 'cancelledRequests', 'validatedRequests', 'initializedRequests', 'buildRequests', 'testedRequests', 'finishedRequests'],
+        labels: ['totalNumberOfRequests', 'failedRequests', 'cancelledRequests', 'validatedRequests', 'initializedRequests', 'buildRequests', 'testedRequests', 'finishedRequests'],
+        dateFormat: function (x) { return new Date(x).toLocaleTimeString(); }
+    });
+
+    var allRequestsHub = $.connection.allRequestsHub;
+
+    allRequestsHub.client.requestStateChanged = function (requestId, requestState, requestProgress, requestFailureReason) {
+        //Do nothing
+    };
+
+    allRequestsHub.client.consumeStats = function (timestamp, totalNumberOfRequests, failedRequests, cancelledRequests,
+        validatedRequests, initializedRequests, buildRequests, testedRequests, finishedRequests) {
+        var newStat = {
+            y: timestamp,
+            totalNumberOfRequests: totalNumberOfRequests,
+            failedRequests: failedRequests,
+            cancelledRequests: cancelledRequests,
+            validatedRequests: validatedRequests,
+            initializedRequests: initializedRequests,
+            buildRequests: buildRequests,
+            testedRequests: testedRequests,
+            finishedRequests: finishedRequests
+        };
+
+        data.push(newStat);
+
+        if (data.length > 10) data = data.slice(data.length - 10, 10);
+
+        plot.setData(data);
+    };
+
+    $.connection.hub.start();
+</script>

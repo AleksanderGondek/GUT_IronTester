@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using IronTester.Common.Messages.Saga;
 using IronTester.Common.Metadata;
 using Microsoft.AspNet.SignalR;
@@ -26,6 +27,8 @@ namespace IronTester.Website.BusHandlers
                 requestModel.CurrentSagaState, 
                 requestModel.CurrentProgress.ToString(CultureInfo.InvariantCulture),
                 requestModel.FailureReasons);
+
+            SendStats();
         }
 
         public void Handle(IProcessUpdate message)
@@ -45,6 +48,8 @@ namespace IronTester.Website.BusHandlers
                 requestModel.CurrentSagaState,
                 requestModel.CurrentProgress.ToString(CultureInfo.InvariantCulture),
                 requestModel.FailureReasons);
+
+            SendStats();
         }
 
         public void Handle(IProcessFailed message)
@@ -63,6 +68,33 @@ namespace IronTester.Website.BusHandlers
                 requestModel.CurrentSagaState,
                 requestModel.CurrentProgress.ToString(CultureInfo.InvariantCulture),
                 requestModel.FailureReasons);
+            
+            SendStats();
+        }
+
+        public void SendStats()
+        {
+            var totalNumberOfRequests = AllRequestsHub.Requests.Count;
+            var failedRequests = AllRequestsHub.Requests.Count(x => x.Value.CurrentSagaState == "Failed");
+            var cancelledRequests = AllRequestsHub.Requests.Count(x => x.Value.CurrentSagaState == "Cancelled");
+            var validatedRequests = AllRequestsHub.Requests.Count(x => x.Value.CurrentSagaState.ToLower().Contains("validation"));
+            var initializedRequests = AllRequestsHub.Requests.Count(x => x.Value.CurrentSagaState.ToLower().Contains("initialization"));
+            var buildRequests = AllRequestsHub.Requests.Count(x => x.Value.CurrentSagaState.ToLower().Contains("build"));
+            var testedRequests = AllRequestsHub.Requests.Count(x => x.Value.CurrentSagaState.ToLower().Contains("test") || x.Value.CurrentSagaState.ToLower().Contains("finished"));
+            var finishedRequests = AllRequestsHub.Requests.Count(x => x.Value.CurrentSagaState.ToLower().Contains("finished"));
+            var timestamp = DateTime.Now.ToString("yyyy-M-dd HH:mm:ss");
+
+            var context = GlobalHost.ConnectionManager.GetHubContext<AllRequestsHub>();
+
+            //JS is a werid world... 
+            context.Clients.All.consumeStats(timestamp,
+                totalNumberOfRequests,
+                failedRequests, cancelledRequests,
+                validatedRequests,
+                initializedRequests,
+                buildRequests,
+                testedRequests,
+                finishedRequests);
         }
     }
 }
