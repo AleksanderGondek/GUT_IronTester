@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="EndpointConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Saga\Timeouts.cs" />
     <Compile Include="Saga\TestingRequestData.cs" />
     <Compile Include="Saga\TestingRequestSagaBase.cs" />
     <Compile Include="Saga\TestingRequestSagaBuilds.cs" />

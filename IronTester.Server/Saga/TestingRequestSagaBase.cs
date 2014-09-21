@@ -12,7 +12,8 @@ using NServiceBus.Saga;
 
 namespace IronTester.Server.Saga
 {
-    public partial class TestingRequestSaga : Saga<TestingRequestData>, IAmStartedByMessages<PleaseDoTests>, IHandleMessages<PleaseCancelTests>, IHandleMessages<PleaseRestart>
+    public partial class TestingRequestSaga : Saga<TestingRequestData>, IAmStartedByMessages<PleaseDoTests>, IHandleMessages<PleaseCancelTests>, IHandleMessages<PleaseRestart>,
+        IHandleTimeouts<RestartTimeout>
     {
         public override void ConfigureHowToFindSaga()
         {
@@ -60,6 +61,9 @@ namespace IronTester.Server.Saga
 
             Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.Cancelled);
             NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
+
+            //One minute is retarted value, but we may never see timeout otherwise
+            RequestTimeout(TimeSpan.FromMinutes(1), new RestartTimeout()); 
         }
 
         public void Handle(PleaseRestart message)
@@ -127,6 +131,12 @@ namespace IronTester.Server.Saga
                     x.CurrentSagaState = Data.CurrentState;
                     x.CurrentProgress = progress;
                 }));            
+        }
+
+        public void Timeout(RestartTimeout state)
+        {
+            //Time for restarting cancelled build is out, end saga
+            MarkAsComplete();
         }
     }
 }

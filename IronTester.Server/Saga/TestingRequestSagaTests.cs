@@ -2,10 +2,12 @@
 using IronTester.Common.Messages.Tests;
 using IronTester.Common.Metadata;
 using NServiceBus;
+using NServiceBus.Saga;
 
 namespace IronTester.Server.Saga
 {
-    public partial class TestingRequestSaga : IHandleMessages<ITestsRequestConfirmation>, IHandleMessages<ITestsStatus>, IHandleMessages<ITestsFinished>
+    public partial class TestingRequestSaga : IHandleMessages<ITestsRequestConfirmation>, IHandleMessages<ITestsStatus>, IHandleMessages<ITestsFinished>,
+        IHandleTimeouts<PossibleTestingLoop>
     {
         public void Handle(ITestsRequestConfirmation message)
         {
@@ -29,6 +31,7 @@ namespace IronTester.Server.Saga
             Data.TestingProgress = message.Progress;
 
             NotifyOfSagaStateChangeProgress((TestingRequestSagaStates)Data.CurrentState, Data.TestingProgress);
+            RequestTimeout(TimeSpan.FromMinutes(30), new PossibleTestingLoop());
         }
 
         public void Handle(ITestsFinished message)
@@ -41,6 +44,16 @@ namespace IronTester.Server.Saga
             Data.CurrentState = message.TestsSuccessful ? Convert.ToInt32(TestingRequestSagaStates.Finished) : Convert.ToInt32(TestingRequestSagaStates.Failed);
 
             NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, Data.BuildsFailReason);
+        }
+
+        public void Timeout(PossibleTestingLoop state)
+        {
+            //Tests are propably looped - fail saga
+            //Cancel testing
+            StopAllOperations();
+            Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.Cancelled);
+            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
+            MarkAsComplete();
         }
     }
 }
