@@ -132,8 +132,10 @@
     <Content Include="Content\font-awesome-4.1.0\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.1.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\js\angular.min.js" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\IronTesterAngularApp\IronTesterAngularApp.js" />
     <Content Include="Content\js\jquery-1.11.0.js" />
     <Content Include="Content\js\plugins\dataTables\dataTables.bootstrap.js" />
     <Content Include="Content\js\plugins\dataTables\jquery.dataTables.js" />
@@ -206,6 +208,7 @@
     <Content Include="Content\less\mixins.less" />
     <Content Include="Content\less\sb-admin-2.less" />
     <Content Include="Content\less\variables.less" />
+    <Content Include="Content\js\angular.min.js.map" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Home\AllRequests.cshtml" />
   </ItemGroup>
