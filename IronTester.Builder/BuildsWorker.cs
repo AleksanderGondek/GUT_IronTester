@@ -18,19 +18,19 @@ namespace IronTester.Builder
         public static ConcurrentDictionary<Guid, RequestModel> Requests;
 
         private static Timer _timer;
-        private static TimerCallback _timerCallbackValidate;
+        private static TimerCallback _timerCallback;
 
         public BuildsWorker()
         {
             Requests = new ConcurrentDictionary<Guid, RequestModel>();
-            _timerCallbackValidate = BuildRequest;
+            _timerCallback = BuildRequest;
             BusLock = new object();
         }
 
         public void Start()
         {
             // Run ValidateRequest every 60 seconds, start after 1 second
-            _timer = new Timer(_timerCallbackValidate, null, 1000, 60000);
+            _timer = new Timer(_timerCallback, null, 1000, 60000);
         }
 
         public void Stop()

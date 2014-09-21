@@ -5,6 +5,8 @@ using IronTester.Common.Messages.Builds;
 using IronTester.Common.Messages.Initialization;
 using IronTester.Common.Messages.Tests;
 using IronTester.Common.Messages.Validation;
+using log4net.Appender;
+using log4net.Core;
 using NServiceBus;
 using NServiceBus.AutomaticSubscriptions;
 
@@ -18,7 +20,7 @@ namespace IronTester.Server
             Configure.Features.AutoSubscribe(f => f.CustomAutoSubscriptionStrategy<IronAutoSubZero>());
 
             Configure.With()
-                .Log4Net();
+                .Log4Net(new DebugAppender { Threshold = Level.Warn });
         }
     }
 
@@ -45,9 +47,10 @@ namespace IronTester.Server
     {
         public void Start()
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Out.WriteLine("The IronTesterServer endpoint is now running and ready to accept messages.");
+            Console.Out.WriteLine("The IronTester.Server endpoint is now running and ready to accept messages.");
+            Console.Out.WriteLine("Console logging treshold level: Warn");
             Console.ResetColor();
         }
 
