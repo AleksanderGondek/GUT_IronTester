@@ -96,5 +96,5 @@ IronTesterAngularApp.controller("allRequestsController", function($, $scope) {
     $.connection.hub.start();
 
     //Get all requests so far (recevied by this endpoint)
-    $scope.allRequestsHub.server.getAllRequests();
+    //$scope.allRequestsHub.server.getAllRequests();
 });

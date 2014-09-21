@@ -39,7 +39,7 @@ namespace IronTester.Server.Saga
         public bool TestsSuccessful { get; set; }
         public string TestsFailReason { get; set; }
         public string TestsArtifactsLocation { get; set; }
-
+        
         public static void WipeClean(TestingRequestData data)
         {
             data.CurrentState = Convert.ToInt32(Common.Metadata.TestingRequestSagaStates.TestingRequested);
