@@ -14,3 +14,6 @@ Exemplary use of NServiceBus for PG Technical University Classes - Code builds p
 
 ## Testing enviorment
 * Windows 8.1 x64 PRO ENG
+
+## Process overview
+![Saga States](http://i59.tinypic.com/2a4wlep.jpg) 
