@@ -12,6 +12,27 @@ Exemplary use of NServiceBus for PG Technical University Classes - Code builds p
 * SingalR - 2.1.2
 * AngularJs - 1.2.25
 
+## NServiceBus Features
+* Self-hosting
+* Command-type messages
+* Publish/Subscribe
+* Sagas
+* Concurrent work
+* RavenDB Persistance
+* Fault-tolerance
+* Second-level retries
+* Timeouts
+* Customised logging
+
+## NServicesBus Features not included
+* Gateways
+* Load balancing
+* Failover clusters
+* Units of work
+* Unobtrusive Mode Messages
+* Journaling
+* Unit testing ( :C )
+
 ## Testing enviorment
 * Windows 8.1 x64 PRO ENG
 
