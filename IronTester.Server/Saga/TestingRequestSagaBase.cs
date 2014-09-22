@@ -136,7 +136,10 @@ namespace IronTester.Server.Saga
         public void Timeout(RestartTimeout state)
         {
             //Time for restarting cancelled build is out, end saga
-            MarkAsComplete();
+            if (Convert.ToInt32(TestingRequestSagaStates.Cancelled).Equals(Data.CurrentState))
+            {
+                MarkAsComplete();   
+            }
         }
     }
 }

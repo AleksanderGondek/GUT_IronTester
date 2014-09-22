@@ -48,12 +48,14 @@ namespace IronTester.Server.Saga
 
         public void Timeout(PossibleTestingLoop state)
         {
-            //Tests are propably looped - fail saga
-            //Cancel testing
-            StopAllOperations();
-            Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.Cancelled);
-            NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
-            MarkAsComplete();
+            if (Convert.ToInt32(TestingRequestSagaStates.TestsInProgress).Equals(Data.CurrentState))
+            {   //Tests are propably looped - fail saga
+                //Cancel testing
+                StopAllOperations();
+                Data.CurrentState = Convert.ToInt32(TestingRequestSagaStates.Cancelled);
+                NotifyOfSagaStateChange((TestingRequestSagaStates)Data.CurrentState, null);
+                MarkAsComplete();   
+            }
         }
     }
 }
